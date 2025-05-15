@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About - Foodie Express</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #6A0DAD, #FFA500);
+      color: #fff;
+      background: 
+    linear-gradient(135deg, rgba(106, 13, 173, 0.7), rgba(255, 165, 0, 0.7)),
+    url('/images/indian-desserts.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+    }
+
+    header {
+      background-color: #6A0DAD;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      color: #FFFFFF;
+    }
+
+
+    nav {
+      background-color: #F2F2F2;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 15px;
+    }
+
+    nav a {
+      color: #6A0DAD;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #FFA500;
+    }
+
+
+    nav a:hover {
+      color: #FFA500;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #FFA500;
+      padding-bottom: 10px;
+    }
+
+    p {
+      line-height: 1.8;
+      font-size: 18px;
+    }
+
+    .highlight {
+      color: #FFD700;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #6A0DAD;
+      color: white;
+      margin-top: 40px;
+    }
+    .profile-icon {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 26px;
+      cursor: pointer;
+      z-index: 999;
+    }
+
+    .profile-icon img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: white;
+      padding: 3px;
+    }
+
+    .profile-sidebar {
+      position: fixed;
+      top: 0;
+      right: -300px;
+      width: 250px;
+      height: 100%;
+      background: linear-gradient(135deg, #6A0DAD, #FFA500);
+      padding: 20px;
+      box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+      transition: right 0.3s ease;
+      z-index: 998;
+      color: white;
+    }
+
+    .profile-sidebar.active {
+      right: 0;
+    }
+
+    .profile-sidebar h2 {
+      color: white;
+    }
+
+    .profile-sidebar button {
+    margin-top: 20px;
+    padding: 10px;
+    background: purple;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Foodie Express</h1>
+  </header>
+
+  <nav>
+    <a href="home.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="logout.html">Logout</a>
+    <a href="wishlist.html">wishlist</a>
+  </nav>
+
+  <div class="container">
+    <h2>About Us</h2>
+    <p>
+      At <span class="highlight">Foodie Express</span>, we're passionate about bringing delicious meals to your doorstep—fast, fresh, and full of flavor. Whether you're craving authentic Indian food, indulgent desserts, or a quick snack, we've got you covered.
+    </p>
+    <p>
+      Founded with a mission to make food delivery not just convenient but also delightful, we partner with top restaurants and home chefs to ensure quality and taste. We believe in combining technology with culinary love to give you an unmatched food experience.
+    </p>
+    <p>
+      Our platform is simple to use, offers real-time tracking, secure payments, and 24/7 support. Your satisfaction is our top priority, and we go the extra mile to ensure every order is a treat.
+    </p>
+    <p>
+      Thank you for choosing <span class="highlight">Foodie Express</span>. Let's make every meal memorable!
+    </p>
+  </div>
+
+  <footer>
+    &copy; 2025 Foodie Express. All rights reserved.
+  </footer>
+
+</body>
+</html>

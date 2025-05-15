@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Order Placed Successfully</title>
+  <style>
+    body {
+      background: 
+    linear-gradient(135deg, rgba(106, 13, 173, 0.7), rgba(255, 165, 0, 0.7)),
+    url('/images/indian-desserts.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      color: rgb(128, 24, 128);
+      text-align: center;
+    }
+
+    .box {
+      
+      padding: 40px;
+      border-radius: 15px;
+    }
+
+    .box h1 {
+      font-size: 2rem;
+      color: beige;
+    }
+
+    .box a {
+      margin-top: 20px;
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: rgb(193, 55, 24);
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .box a:hover {
+      background-color: #125796;
+    }
+    footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #6A0DAD;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 14px;
+    z-index: 999;
+  }
+    .box p {
+  color: white;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1> Order Placed Successfully!</h1>
+    <p>Your order has been placed successfully.</p>
+    <a href="home.html">Back to Home</a>
+  </div>
+  <footer>
+    &copy; 2025 Foodie Express. All rights reserved.
+  </footer>
+
+  <script>
+    document.querySelector("a[href='home.html']").addEventListener("click", function () {
+      localStorage.removeItem("cart");
+      localStorage.removeItem("cartTotal");
+    });
+  </script>
+  
+</body>
+</html>
+
+

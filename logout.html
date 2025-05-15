@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Logout - Foodie Express</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: 
+        linear-gradient(135deg, rgba(106, 13, 173, 0.7), rgba(255, 165, 0, 0.7)),
+        url('/images/indian-desserts.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .logout-container {
+      flex: 1;
+      display: flex;
+      
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px;
+    }
+
+    .logout-box {
+      
+      padding: 30px 50px;
+      border-radius: 15px;
+      backdrop-filter: blur(8px);
+    }
+
+    .logout-box h2 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .logout-box p {
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+
+    .logout-box a {
+      display: inline-block;
+      padding: 10px 20px;
+      background: #fff;
+      color: #6A0DAD;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .logout-box a:hover {
+      background: #6d1dbd;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logout-container">
+    <div class="logout-box">
+      <h2>You’ve been logged out</h2>
+      <p>Thanks for visiting Foodie Express. See you again soon!</p>
+      <a href="login.html">Return to login</a>
+    </div>
+  </div>
+
+  
+</body>
+</html>

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vegetarian Menu</title>
+  <style>
+    body {
+      margin: 0;
+      background: 
+        linear-gradient(135deg, rgba(106, 13, 173, 0.7), rgba(255, 165, 0, 0.7)),
+        url('/images/indian-desserts.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      font-family: 'Segoe UI', sans-serif;
+      color: #FFFFFF;
+    }
+
+    header {
+      background-color: #6A0DAD;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      color: #FFFFFF;
+    }
+
+    nav {
+      background-color: #F2F2F2;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 20px;
+    }
+
+    nav a {
+      color: #6A0DAD;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #FFA500;
+    }
+
+    .section {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .section h2 {
+      color: #FFD60A;
+      margin-bottom: 30px;
+    }
+
+    .food-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .food-item {
+      background-color: #F8F9FA;
+      color: #2D6A4F;
+      border-radius: 10px;
+      width: 250px;
+      padding: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .food-item:hover {
+      transform: scale(1.05);
+    }
+
+    img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    
+
+    button {
+      background-color: #FFD60A;
+      border: none;
+      padding: 10px;
+      margin-top: 10px;
+      /* width: 100%; */
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background-color: #f1c40f;
+    }
+
+    .payment-btn {
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+      margin-bottom: 20px;
+    }
+
+    .payment-btn a {
+      background-color: #FFA500;
+      color: #fff;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 16px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .payment-btn a:hover {
+      background-color: #ff8c00;
+    }
+    footer {
+    
+      bottom: 0;
+      width: 100%;
+      background-color: #6A0DAD;
+      color: #fff;
+      text-align: center;
+      padding: 10px 0;
+      font-size: 14px;
+      z-index: 999;
+    }
+    .cart {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: linear-gradient(135deg, #6A0DAD, #FFA500);
+  color: #000;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+  .quantity-fav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.qty-control {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.qty-control button {
+  background-color: #FFD60A;
+  border: none;
+  padding: 5px 10px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.qty-control .qty {
+  min-width: 20px;
+  text-align: center;
+  font-weight: bold;
+  color: #2D6A4F;
+}
+
+.fav-btn {
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #ccc;
+  transition: color 0.3s ease;
+}
+
+.fav-btn.active {
+  color: red;
+}
+
+
+  </style>
+</head>
+<body>
+
+  <button class="cart" onclick="window.location.href='cart.html'">
+    🛒 Cart: <span id="cart-count">0</span> items | Total: ₹<span id="cart-total">0</span>
+  </button>
+
+  <header>
+    <h1>Foodie Express</h1>
+  </header>
+
+  <nav>
+    <a href="home.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="logout.html">Logout</a>
+    <a href="Wishlist.html">wishlist</a>
+  </nav>
+
+  <div style="text-align:center; margin: 20px;">
+    <input type="text" id="searchBox" placeholder="Search dishes..." onkeyup="filterDishes()" 
+           style="padding: 10px; width: 50%; border-radius: 10px; border: none; font-size: 16px;">
+  </div>
+  
+
+  <div class="section">
+    <h2>Vegetarian Dishes</h2>
+    <div class="food-list">
+  
+      <div class="food-item">
+        <img src="/images/indianfood/aloo gobi.jpg" alt="Aloo Gobi" />
+        <h3>Aloo Gobi</h3>
+        <p>₹150</p>
+        <div class="quantity-fav">
+          <div class="qty-control">
+            <button onclick="changeQty(this, -1)">−</button>
+            <span class="qty">1</span>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <!-- FIXED CODE -->
+          <button class="fav-btn" onclick="toggleFav(this, 'Aloo Gobi')">♡</button>
+
+        </div>
+        <button onclick="addToCart('Aloo Gobi', 150, this)">Add to Cart</button>
+      </div>
+  
+      <div class="food-item">
+        <img src="/images/indianfood/dosa.jpg" alt="dosa" />
+        <h3>Dosa</h3>
+        <p>₹150</p>
+        <div class="quantity-fav">
+          <div class="qty-control">
+            <button onclick="changeQty(this, -1)">−</button>
+            <span class="qty">1</span>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <button class="fav-btn" onclick="toggleFav(this,'Dosa')">♡</button>
+        </div>
+        <button onclick="addToCart('dosa', 150, this)">Add to Cart</button>
+      </div>
+      
+  
+      <div class="food-item">
+        <img src="/images/indianfood/idly.jpg" alt="" />
+        <h3>idly</h3>
+        <p>₹150</p>
+        <div class="quantity-fav">
+          <div class="qty-control">
+            <button onclick="changeQty(this, -1)">−</button>
+            <span class="qty">1</span>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <button class="fav-btn" onclick="toggleFav(this,'idly')">♡</button>
+        </div>
+        <button onclick="addToCart('idly', 150, this)">Add to Cart</button>
+      </div>
+      
+  
+      <div class="food-item">
+        <img src="/images/indianfood/palak.jpg" alt="" />
+        <h3>Palak Paneer</h3>
+        <p>₹150</p>
+        <div class="quantity-fav">
+          <div class="qty-control">
+            <button onclick="changeQty(this, -1)">−</button>
+            <span class="qty">1</span>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <button class="fav-btn" onclick="toggleFav(this,'Palak Paneer')">♡</button>
+        </div>
+        <button onclick="addToCart('Palak Paneer', 150, this)">Add to Cart</button>
+      </div>
+      
+      <div class="food-item">
+        <img src="/images/indianfood/pan.jpg" alt="" />
+        <h3>Paneer</h3>
+        <p>₹150</p>
+        <div class="quantity-fav">
+          <div class="qty-control">
+            <button onclick="changeQty(this, -1)">−</button>
+            <span class="qty">1</span>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <button class="fav-btn" onclick="toggleFav(this,'Paneer')">♡</button>
+        </div>
+        <button onclick="addToCart('Paneer', 150, this)">Add to Cart</button>
+      </div>
+      
+  
+      <div class="food-item">
+        <img src="/images/indianfood/sambarice.jpg" alt="" />
+        <h3>sambarice</h3>
+        <p>₹150</p>
+        <div class="quantity-fav">
+          <div class="qty-control">
+            <button onclick="changeQty(this, -1)">−</button>
+            <span class="qty">1</span>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <button class="fav-btn" onclick="toggleFav(this,'sambarice')">♡</button>
+        </div>
+        <button onclick="addToCart('sambarice', 150, this)">Add to Cart</button>
+      </div>
+       
+
+      <div class="food-item">
+        <img src="/images/indianfood/veg biriyani.jpg" alt="" />
+        <h3>Veg biriyani</h3>
+        
+        <p>₹150</p>
+        <div class="quantity-fav">
+          <div class="qty-control">
+            <button onclick="changeQty(this, -1)">−</button>
+            <span class="qty">1</span>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <button class="fav-btn" onclick="toggleFav(this,'Veg biriyani')">♡</button>
+        </div>
+        <button onclick="addToCart('Veg biriyani', 150, this)">Add to Cart</button>
+      </div>
+      <div class="food-item">
+        <img src="/images/indianfood/chole.jpg " alt="chole" />
+        <h3>chole</h3>
+        
+        <p>₹150</p>
+        <div class="quantity-fav">
+          <div class="qty-control">
+            <button onclick="changeQty(this, -1)">−</button>
+            <span class="qty">1</span>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <button class="fav-btn" onclick="toggleFav(this,'chole')">♡</button>
+        </div>
+        <button onclick="addToCart('chole', 150, this)">Add to Cart</button>
+      </div>
+      <div class="food-item">
+        <img src="/images/indianfood/panner biriyani.jpg " alt="panner biriyani" />
+        <h3>panner biriyani</h3>
+        
+        <p>₹150</p>
+        <div class="quantity-fav">
+          <div class="qty-control">
+            <button onclick="changeQty(this, -1)">−</button>
+            <span class="qty">1</span>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <button class="fav-btn" onclick="toggleFav(this,'panner biriyani')">♡</button>
+        </div>
+        <button onclick="addToCart('panner biriyani', 150, this)">Add to Cart</button>
+      </div>
+  
+    </div>
+  
+    <div class="payment-btn">
+      <a href="cart.html">Proceed to Payment</a>
+    </div>
+  </div>
+  
+  <footer>
+    &copy; 2025 Foodie Express. All rights reserved.
+  </footer>
+  
+
+  <script>
+
+
+// ✅ Add to cart with quantity handling
+    function addToCart(name, price, btn) {
+      const qty = parseInt(btn.parentElement.querySelector(".qty").innerText);
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  
+      const index = cart.findIndex(item => item.name === name);
+      if (index > -1) {
+        cart[index].quantity += qty;
+        cart[index].price += price * qty;
+      } else {
+        cart.push({ name, quantity: qty, price: price * qty });
+      }
+  
+      localStorage.setItem("cart", JSON.stringify(cart));
+      updateCartDisplay();
+      alert(`✅ ${name} x${qty} added to cart!`);
+    }
+  
+    function updateCartDisplay() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      let total = 0;
+      cart.forEach(item => total += item.price);
+  
+      const count = document.getElementById('cart-count');
+      const totalDisplay = document.getElementById('cart-total');
+  
+      if (count && totalDisplay) {
+        count.innerText = cart.length;
+        totalDisplay.innerText = total;
+      }
+    }
+  
+    window.onload = updateCartDisplay;
+    // ❤️ Toggle wishlist button appearance and localStorage
+    function toggleFav(button, itemName) {
+      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      const index = wishlist.findIndex(item => item.name === itemName);
+  
+      if (index > -1) {
+        wishlist.splice(index, 1);
+        button.classList.remove("active");
+        button.innerText = "♡";
+        alert(`${itemName} removed from wishlist.`);
+      } else {
+        wishlist.push({ name: itemName });
+        button.classList.add("active");
+        button.innerText = "❤️";
+        alert(`${itemName} added to wishlist.`);
+      }
+  
+      localStorage.setItem("wishlist", JSON.stringify(wishlist));
+    }
+  
+    // ➕/➖ Quantity changer
+    function changeQty(button, delta) {
+      const qtySpan = button.parentElement.querySelector(".qty");
+      let qty = parseInt(qtySpan.innerText);
+      qty = Math.max(1, qty + delta); // Minimum quantity is 1
+      qtySpan.innerText = qty;
+    }
+  
+    // 🔍 Search filter
+    function filterDishes() {
+      const input = document.getElementById("searchBox").value.toLowerCase();
+      const dishes = document.querySelectorAll(".food-item");
+  
+      dishes.forEach(dish => {
+        const name = dish.querySelector("h3").innerText.toLowerCase();
+        dish.style.display = name.includes(input) ? "block" : "none";
+      });
+    }
+  
+    // 🚀 On page load
+    window.onload = updateCartDisplay;
+  </script>
+  <script src="JS/script.js"></script>
+
+  </body>
+  </html>
+  
+  
+  

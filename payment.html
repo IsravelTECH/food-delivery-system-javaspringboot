@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payment</title>
+  <style>
+    body {
+      margin: 0;
+      background: 
+        linear-gradient(135deg, rgba(106, 13, 173, 0.7), rgba(255, 165, 0, 0.7)),
+        url('/images/juices/dragonfruit\ juice.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .payment-container {
+     
+      color: #1B1B1E;
+      padding: 30px;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #6A0DAD;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="tel"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    .payment-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .payment-options label {
+      font-weight: normal;
+    }
+
+    .total {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .confirm-btn {
+      background-color: #6A0DAD;
+      color: white;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .confirm-btn:hover {
+      background-color: #540a9d;
+    }
+
+    /* Modal */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      color: #1B1B1E;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+
+    .modal-content input {
+      padding: 10px;
+      width: 100%;
+      margin: 15px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .pay-btn {
+      background-color: #6A0DAD;
+      color: white;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .pay-btn:hover {
+      background-color: #540a9d;
+    }
+
+    .gpay-logo, .phonepe-logo {
+      display: none;
+      width: 100px;
+      margin-bottom: 15px;
+    }
+
+    #upiId {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="payment-container">
+    <h2>Choose Payment Method</h2>
+
+    <div class="total">Total Amount: ₹<span id="totalAmount">0</span></div>
+
+    <div class="input-group">
+      <label for="phone">Phone Number:</label>
+      <input type="tel" id="phone" placeholder="Enter your phone number" required />
+    </div>
+
+    <div class="payment-options">
+      <label><input type="radio" name="payment" value="GPay" /> Google Pay</label>
+      <label><input type="radio" name="payment" value="PhonePe" /> PhonePe</label>
+      <label><input type="radio" name="payment" value="COD" /> Cash on Delivery</label>
+    </div>
+
+    <button class="confirm-btn" onclick="confirmPayment()">Confirm Payment</button>
+  </div>
+
+  <!-- Modal -->
+  <div id="paymentModal" class="modal">
+    <div class="modal-content">
+      <img src="/images/gpay.jpg" alt="Gpay logo" class="gpay-logo">
+      <img src="/images/phonepe.jpg" alt="PhonePe logo" class="phonepe-logo">
+      <h3>Complete Your Payment</h3>
+      <p>Total: ₹<span id="modalTotal">0</span></p>
+      <input type="text" id="upiId" placeholder="Enter UPI ID or Card Number" />
+      <button class="pay-btn" onclick="payNow()">Pay Now</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Load total from localStorage (set during placeOrder)
+      const totalAmount = localStorage.getItem("paymentTotal") || "0.00";
+      document.getElementById("totalAmount").textContent = totalAmount;
+      document.getElementById("modalTotal").textContent = totalAmount;
+    });
+  
+    // Show modal and handle method-specific UI
+    function confirmPayment() {
+      const phone = document.getElementById("phone").value.trim();
+      const selectedMethod = document.querySelector('input[name="payment"]:checked');
+  
+      if (!phone || !selectedMethod) {
+        alert("Please enter your phone number and select a payment method.");
+        return;
+      }
+  
+      const method = selectedMethod.value;
+  
+      // Show modal
+      document.getElementById("paymentModal").style.display = "flex";
+  
+      // Display the correct logo
+      document.querySelector(".gpay-logo").style.display = (method === "GPay") ? "block" : "none";
+      document.querySelector(".phonepe-logo").style.display = (method === "PhonePe") ? "block" : "none";
+  
+      // Show/hide UPI field
+      document.getElementById("upiId").style.display = (method === "COD") ? "none" : "block";
+    }
+  
+    // Submit payment
+    async function payNow() {
+      const phone = document.getElementById("phone").value.trim();
+      const selectedMethod = document.querySelector('input[name="payment"]:checked');
+      const method = selectedMethod?.value;
+      const upi = method !== "COD" ? document.getElementById("upiId").value.trim() : null;
+  
+      const totalAmount = localStorage.getItem("paymentTotal") || "0.00";
+  
+      // Validate input
+      if (!phone || !method) {
+        alert("Please enter your phone number and select a payment method.");
+        return;
+      }
+  
+      if (method !== "COD" && !upi) {
+        alert("Please enter a valid UPI ID or Card Number.");
+        return;
+      }
+  
+      const paymentData = {
+        phone,
+        paymentMethod: method,
+        totalAmount: parseFloat(totalAmount),
+        upiId: upi
+      };
+  
+      try {
+        const res = await fetch('http://localhost:8080/api/payment', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(paymentData),
+        });
+  
+        const resultText = await res.text();
+        let result;
+  
+        try {
+          result = JSON.parse(resultText);
+        } catch {
+          result = { message: resultText };
+        }
+  
+        if (res.ok) {
+          const successMessage = result.message || "Payment successful!";
+          alert(`✅ ${successMessage}`);
+          localStorage.removeItem("cart");
+          localStorage.removeItem("paymentTotal");
+          localStorage.removeItem("pendingOrder");
+          window.location.href = "success.html";
+        } else {
+          const errorMessage = result.message || "Payment failed due to server error.";
+          alert("❌ " + errorMessage);
+        }
+  
+      } catch (err) {
+        console.error("Payment error:", err);
+        alert("🚨 Network or server error. Please try again later.");
+      }
+    }
+  </script>
+  
+<script src="JS/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<body lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Indian Food</title>
+  <style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: 
+    linear-gradient(135deg, rgba(106, 13, 173, 0.7), rgba(255, 165, 0, 0.7)),
+    url('/images/indianfood.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  color: #FFFFFF;
+  min-height: 100vh;
+  position: relative;
+}
+
+header {
+  background-color: #6A0DAD;
+  text-align: center;
+  padding: 5px;
+  position: relative;
+}
+
+h1 {
+      margin: 10;
+      color: #FFFFFF;
+      text-align: center;
+    }
+
+    .nav {
+      background-color: #F2F2F2;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 15px;
+    }
+
+    .nav a {
+      color: #6A0DAD;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #FFA500;
+    }
+
+.profile-icon {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 26px;
+  cursor: pointer;
+  z-index: 999;
+}
+
+.profile-icon img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: white;
+  padding: 3px;
+}
+
+.profile-sidebar {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  width: 250px;
+  height: 100%;
+  background: linear-gradient(135deg, #6A0DAD, #FFA500);
+  padding: 20px;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  transition: right 0.3s ease;
+  z-index: 998;
+  color: white;
+}
+
+.profile-sidebar.active {
+  right: 0;
+}
+
+.profile-sidebar h2 {
+  color: white;
+}
+
+.profile-sidebar button {
+  margin-top: 20px;
+  padding: 10px;
+  background: purple;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cart {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: linear-gradient(135deg, #6A0DAD, #FFA500);
+  color: #000;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+h2 {
+  text-align: center;
+  color: #FFA500;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  padding: 60px 20px;
+  min-height: 80vh;
+}
+
+.category-box {
+  width: 350px;
+  height: 200px;
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.category-box:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.veg {
+  background: linear-gradient(to right, #2D6A4F, #A8D5BA);
+}
+
+.nonveg {
+  background: linear-gradient(to right, #D62828, #F08080);
+}
+
+.category-title {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  text-align: center;
+  padding: 15px;
+  font-size: 22px;
+}
+
+footer {
+  background-color: #6A0DAD;
+  color: #fff;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 14px;
+  position: relative;
+  width: 100%;
+}
+
+  </style>
+</head>
+<body>
+
+
+  <header>
+    <h1>Foodie Express</h1>
+  </header>
+
+  <div class="nav">
+    <a href="home.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="logout.html">Logout</a>
+    <a href="Wishlist.html">wishlist</a>
+  </div>
+  
+  <button class="cart" onclick="window.location.href='cart.html'">
+    🛒 Cart: <span id="cart-count">0</span> items | Total: ₹<span id="cart-total">0</span>
+  </button>
+  
+  <h1>Indian Food</h1>
+
+  <div class="container">
+    <a href="veg.html">
+      <div class="category-box veg">
+        <div class="category-title">🌿 Vegetarian Dishes</div>
+        <img src="/images/indianfood/aloo gobi.jpg" alt="vegeterian" >
+      </div>
+    </a>
+    <a href="nonveg.html">
+      <div class="category-box nonveg">
+        <div class="category-title">🍗 Non-Vegetarian Dishes</div>
+        <img src="/images/indianfood/chicken lolipop.jpg " alt="Non vegeterian" >
+      </div>
+    </a>
+  </div>
+
+  <script>
+    function addToCart(name, price) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push({ name, price });
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartDisplay();
+    }
+  
+    function updateCartDisplay() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      let total = 0;
+      cart.forEach(item => total += item.price);
+  
+      document.getElementById('cart-count').innerText = cart.length;
+      document.getElementById('cart-total').innerText = total;
+    }
+  
+    // Initialize on page load
+    document.addEventListener("DOMContentLoaded", updateCartDisplay);
+    updateCartDisplay();
+    loadUserProfile();
+  </script>
+  <script src="JS/script.js"></script>
+
+  <footer>
+    &copy; 2025 Foodie Express. All rights reserved.
+  </footer>
+  </body>
+
+</html>

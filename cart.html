@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Cart - Foodie Express</title>
+  <style>
+    
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: 
+        linear-gradient(135deg, rgba(106, 13, 173, 0.7), rgba(255, 165, 0, 0.7));
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      color: #333;
+    }
+    header {
+      background-color: #6A0DAD;
+      text-align: center;
+      padding: 20px;
+      position: relative;
+    }
+    header h1 {
+      margin: 0;
+      color: #FFFFFF;
+    }
+
+    
+    nav {
+      background-color: #F2F2F2;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 15px;
+    }
+
+    nav a {
+      color: #6A0DAD;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #FFA500;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 40px auto;
+    
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(10, 9, 9, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #e1dcd2 ;
+    }
+
+    .item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #f9f4f4;
+    }
+
+    .item-info {
+      flex-grow: 1;
+    }
+
+    .remove-btn {
+      background-color: #ff4444;
+      color: rgb(199, 156, 156);
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .remove-btn:hover {
+      background-color: #cc0000;
+    }
+
+    .total {
+      font-size: 18px;
+      font-weight: bold;
+      text-align: right;
+      margin-top: 20px;
+    }
+    
+  .payment-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.payment-btn:hover {
+  background-color: #FFA500;
+}
+footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #6A0DAD;
+      color: #fff;
+      text-align: center;
+      padding: 10px 0;
+      font-size: 14px;
+      z-index: 999;
+    }
+    
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Foodie Express</h1>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="logout.html">Logout</a>
+      <a href="wishlist.html">wishlist</a>
+    </nav>
+    </header>
+
+    <h2>Your Cart</h2>
+
+  
+    <div class="container">
+      <h2>Selected Items</h2>
+      <div id="cart-items"></div>
+      <div class="total">Total: ₹<span id="total-amount">0.00</span></div>
+      <button onclick="placeOrder()" class="payment-btn">Proceed to Payment</button>
+    </div>
+    
+
+<footer>
+  &copy; 2025 Foodie Express. All rights reserved.
+</footer>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderCart();
+  });
+
+  function renderCart() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartItemsDiv = document.getElementById('cart-items');
+    cartItemsDiv.innerHTML = '';
+    let total = 0;
+
+    if (cart.length === 0) {
+      cartItemsDiv.innerHTML = "<p>Your cart is empty.</p>";
+      document.getElementById('total-amount').innerText = '0.00';
+      return;
+    }
+
+    cart.forEach((item, index) => {
+      const itemDiv = document.createElement('div');
+      itemDiv.classList.add('item');
+      itemDiv.style.display = "flex";
+      itemDiv.style.justifyContent = "space-between";
+      itemDiv.style.alignItems = "center";
+      itemDiv.style.marginBottom = "10px";
+
+      itemDiv.innerHTML = `
+        <div style="flex: 1;">${item.name}</div>
+        <div style="width: 100px; text-align: right;">₹${item.price.toFixed(2)}</div>
+        <button onclick="removeFromCart(${index})" style="margin-left: 15px; background-color: #D62828; color: white; border: none; padding: 5px 10px; border-radius: 5px;">Remove</button>
+      `;
+
+      cartItemsDiv.appendChild(itemDiv);
+      total += item.price;
+    });
+
+    document.getElementById('total-amount').innerText = total.toFixed(2);
+  }
+
+  function removeFromCart(index) {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.splice(index, 1);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    renderCart();
+  }
+
+  async function placeOrder() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    if (!user) {
+      alert("Please login first!");
+      return;
+    }
+
+    if (cart.length === 0) {
+      alert("Your cart is empty!");
+      return;
+    }
+
+    let totalAmount = 0;
+
+    try {
+      for (let item of cart) {
+        const response = await fetch(`http://localhost:8080/api/cart/add`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId: user.id,
+            itemName: item.name,
+            price: item.price,
+            quantity: 1
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to save item to cart backend.");
+        }
+
+        totalAmount += item.price;
+      }
+
+      // Save total and cart info for payment page
+      localStorage.setItem("paymentTotal", totalAmount.toFixed(2));
+      localStorage.setItem("pendingOrder", JSON.stringify(cart));
+
+      alert("Order placed successfully!");
+      // Do NOT clear localStorage cart yet — payment needs it
+      window.location.href = "payment.html";
+
+    } catch (error) {
+      console.error("Order error:", error);
+      alert("Something went wrong while placing the order. Please try again.");
+    }
+  }
+</script>
+
+
+<script src="JS/script.js"></script>
+</body>
+</html>
